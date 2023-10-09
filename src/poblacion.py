@@ -1,20 +1,22 @@
-# -*- coding: utf-8 -*-
-
-""" 
-Poblacion mundial
-@author: Toñi Reina
-REVISOR: José Antonio Troyano, Daniel Mateos, Mariano González, Fermín Cruz
-ÚLTIMA MODIFICACIÓN: 10/10/2022
-"""
-
 import csv
 from matplotlib import pyplot as plt
 from collections import namedtuple
 
 RegistroPoblacion = namedtuple("RegistroPoblacion", "pais, codigo, año, censo")
 
-############################################################################################
+
 def lee_poblaciones(ruta_fichero):
+    lista=[]
+    with open(ruta_fichero, encoding='utf-8' ) as f:
+        lector=csv.reader(f)
+        for pais, codigo, año, censo in lector:
+            censo=int(censo)
+            año=int(año)
+            registro_poblacion=RegistroPoblacion(pais, codigo, año, censo)
+            lista.append(registro_poblacion)
+        return lista 
+
+            
     """
     Lee el fichero de entrada y devuelve una lista de tuplas poblaciones
 
@@ -24,11 +26,31 @@ def lee_poblaciones(ruta_fichero):
     @return: lista de tuplas con la información del fichero
     @rtype: RegistroPoblacion
     """
-    pass
+    
 
 
 def calcula_paises(poblaciones):
-    """
+    lista_paises=[]
+    
+    for i in poblaciones:
+        paises=i.pais
+        lista_paises.append(paises)
+    for _ in lista_paises:
+        while lista_paises.count(_)>1:
+            lista_paises.remove(_)
+    return sorted(lista_paises)
+'''
+Otra opción es con conjuntos:
+def calcula_paises(poblaciones):
+    paises=set() #Crea un conjunto vacío, empleamos conjuntos ya que no permite elementos repetidos
+    for p in poblaciones:
+        paises.add(p.pais)
+        ________________________o____________________________
+    paises={p.pais for p in poblaciones}
+'''
+
+
+"""
     Calcula la lista de países distintos presentes en una lista de de tuplas de tipo RegistroPoblacion.
 
     @param poblaciones: lista de tuplas con información de poblaciones
@@ -37,10 +59,22 @@ def calcula_paises(poblaciones):
     @return: lista de paises, ordenada alfabéticamente, sin duplicados
     @rtype: list(str)
     """
-    pass
-
 
 def filtra_por_pais(poblaciones, pais_o_codigo):
+    lista_pais_censo=[]
+   
+    for p in poblaciones:
+            if p.pais==pais_o_codigo or p.codigo==pais_o_codigo:
+                lista_pais_censo.append((p.año, p.censo))
+    return lista_pais_censo
+
+
+
+        
+
+
+
+
     """
     Devuelve el año y el censo de las tuplas correspondientes a un determinado pais
 
@@ -52,13 +86,19 @@ def filtra_por_pais(poblaciones, pais_o_codigo):
     @return: lista de tuplas (año, censo) seleccionadas
     @rtype: list(tuple(int, int))
     """
-    pass
+    
 
 
 ##############################################################################################
 
 ##############################################################################################
 def filtra_por_paises_y_anyo(poblaciones, año, paises):
+    lista_paises_censo=[]
+    for p in poblaciones:
+        if p.pais in paises and p.año==año:
+            lista_paises_censo.append((p.pais, p.censo))
+    return lista_paises_censo
+
     """
     Devuelve el país y el censo de las tuplas correspondientes a un conjunto de paises de un año concreto.
 
@@ -79,6 +119,9 @@ def filtra_por_paises_y_anyo(poblaciones, año, paises):
 
 ###############################################################################################
 def muestra_evolucion_poblacion(poblaciones, pais_o_codigo):
+    for p in poblaciones:
+        if p.pais== pais_o_codigo or p.codigo==pais_o_codigo:
+            
     """
     Genera una curva con la evolución de la población de un país. El país puede
     darse como su nombre completo o por su código.

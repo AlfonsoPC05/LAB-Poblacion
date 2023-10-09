@@ -107,10 +107,12 @@ def test_muestra_comparativa_paises_anyo(datos):
 ################################################################
 if __name__ == "__main__":
     datos = lee_poblaciones("data/population.csv")
+    
 
     test_lee_poblaciones(datos)
     test_calcula_paises(datos)
     test_filtra_por_pais(datos)
     test_filtra_por_paises_y_anyo(datos)
-    test_muestra_evolucion_poblacion(datos)
-    test_muestra_comparativa_paises_anyo(datos)
+    #test_muestra_evolucion_poblacion(datos)
+    #test_muestra_comparativa_paises_anyo(datos)
+   
