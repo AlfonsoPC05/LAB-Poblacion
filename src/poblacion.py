@@ -93,11 +93,11 @@ def filtra_por_pais(poblaciones, pais_o_codigo):
 
 ##############################################################################################
 def filtra_por_paises_y_anyo(poblaciones, año, paises):
-    lista_paises_censo=[]
+    lista_paises_censo_año=[]
     for p in poblaciones:
         if p.pais in paises and p.año==año:
-            lista_paises_censo.append((p.pais, p.censo))
-    return lista_paises_censo
+            lista_paises_censo_año.append((p.pais, p.censo))
+    return lista_paises_censo_año
 
     """
     Devuelve el país y el censo de las tuplas correspondientes a un conjunto de paises de un año concreto.
@@ -119,8 +119,18 @@ def filtra_por_paises_y_anyo(poblaciones, año, paises):
 
 ###############################################################################################
 def muestra_evolucion_poblacion(poblaciones, pais_o_codigo):
-    for p in poblaciones:
-        if p.pais== pais_o_codigo or p.codigo==pais_o_codigo:
+    lista_pais_censo=[]
+    lista_años = []
+    lista_habitantes = []
+    
+    lista_pais_censo=filtra_por_pais(poblaciones, pais_o_codigo)
+    for año, censo in lista_pais_censo:
+        
+        lista_años.append(año)
+        lista_habitantes.append(censo)
+    titulo = "Población en:  "+ pais_o_codigo
+        
+             
             
     """
     Genera una curva con la evolución de la población de un país. El país puede
@@ -133,9 +143,7 @@ def muestra_evolucion_poblacion(poblaciones, pais_o_codigo):
     """
     # TODO Complete la función para asignar los valores correctos
     #  a las variables titulo, lista_años y lista_habitantes
-    titulo = ""
-    lista_años = []
-    lista_habitantes = []
+    
 
     # Estas instrucciones dibujan la gráfica
     plt.title(titulo)
@@ -147,6 +155,12 @@ def muestra_evolucion_poblacion(poblaciones, pais_o_codigo):
 
 ###############################################################################################
 def muestra_comparativa_paises_anyo(poblaciones, año, paises):
+    lista_paises = []
+    lista_habitantes = []
+    lista_poblacion_año=filtra_por_paises_y_anyo(poblaciones, año, paises)
+    for pais, censo in lista_poblacion_año:
+        lista_paises.append(pais)
+        lista_habitantes.append(censo)
     """
     Genera una gráfica de barras en la que se muestra la comparativa de
     la población de varios países en un año concreto
@@ -160,9 +174,8 @@ def muestra_comparativa_paises_anyo(poblaciones, año, paises):
     """
     # TODO Complete la función para asignar los valores correctos
     #  a las variables titulo, lista_paises y lista_habitantes
-    titulo = ""
-    lista_paises = []
-    lista_habitantes = []
+    titulo = "Comparativa entre paises"
+    
 
     # Estas instrucciones dibujan la gráfica
     plt.title(titulo)
